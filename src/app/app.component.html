@@ -1,3 +1,51 @@
+<ion-menu side="start" menuId="menu" contentId="mainApp">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <!--      Side Menu-->
+      <ion-title>Queue App</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle menu="menu">
+        <!--        Guest-->
+        <ion-item (click)="closeMenu" [routerLink]="['/home']">
+          <ion-icon name="home-outline" slot="start"></ion-icon>
+          <ion-label>Guest </ion-label>
+        </ion-item>
+        <!--        Host-->
+        <ion-item (click)="closeMenu" [routerLink]="['/host']">
+          <ion-icon name="people-outline" slot="start"></ion-icon>
+          <ion-label>Host</ion-label>
+        </ion-item>
+        <!--        My QR -->
+        <ion-item (click)="closeMenu" [routerLink]="['/my-qr']">
+          <ion-icon  name="qr-code-outline" slot="start"></ion-icon>
+          <ion-label>My QR</ion-label>
+        </ion-item>
+        <!--        History -->
+        <ion-item (click)="closeMenu" [routerLink]="['/history']">
+          <ion-icon  name="time-outline" slot="start"></ion-icon>
+          <ion-label>History</ion-label>
+        </ion-item>
+        <!--        About App -->
+        <ion-item (click)="closeMenu" [routerLink]="['/about-app']">
+          <ion-icon  name="information-outline" slot="start"></ion-icon>
+          <ion-label>About App</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <!--      Exit-->
+      <ion-item (click)="closeMenu" [routerLink]="['/home']">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Logout</ion-label>
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-router-outlet id="mainApp"></ion-router-outlet>
 </ion-app>
