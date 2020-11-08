@@ -10,7 +10,23 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'host',
+    loadChildren: () => import('./host/host.module').then( m => m.HostPageModule)
   },
+  {
+    path: 'my-qr',
+    loadChildren: () => import('./my-qr/my-qr.module').then( m => m.MyQRPageModule)
+  },
+  {
+    path: 'about-app',
+    loadChildren: () => import('./about-app/about-app.module').then( m => m.AboutAppPageModule)
+  },
+  {
+    path: 'history',
+    loadChildren: () => import('./history/history.module').then( m => m.HistoryPageModule)
+  },
+
 ];
 
 @NgModule({
