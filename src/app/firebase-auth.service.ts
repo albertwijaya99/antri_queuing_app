@@ -46,4 +46,10 @@ export class FirebaseAuthService {
                 this.router.navigate(['/login']);
             });
     }
+    async signOut(){
+        return this.firebaseAuth.signOut()
+            .then(res => {
+                this.router.navigate(['/login']);
+            });
+    }
 }
