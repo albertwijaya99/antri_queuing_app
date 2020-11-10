@@ -39,7 +39,7 @@
   <ion-footer>
     <ion-toolbar>
       <!--      Exit-->
-      <ion-item (click)="closeMenu" [routerLink]="['/home']">
+      <ion-item (click)="signOut()" style="cursor: pointer">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         <ion-label>Logout</ion-label>
       </ion-item>

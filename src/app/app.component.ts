@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {MenuController, Platform} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import {FirebaseAuthService} from './firebase-auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private firebaseauth: FirebaseAuthService
   ) {
     this.initializeApp();
   }
@@ -31,5 +33,9 @@ export class AppComponent {
   }
   async closeMenu(){
     await this.menuCtrl.close('menu');
+  }
+  async signOut(){
+    await this.menuCtrl.close('menu');
+    await this.firebaseauth.signOut();
   }
 }
