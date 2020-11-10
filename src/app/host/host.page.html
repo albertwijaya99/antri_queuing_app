@@ -1,12 +1,115 @@
 <ion-header>
   <ion-toolbar>
-    <ion-item>
-      <ion-icon name="menu"(click)="openMenu()"></ion-icon>
-      <ion-title>Nama Tempat</ion-title>
+    <ion-item lines="none">
+      <ion-icon name="menu" (click)="openMenu()"></ion-icon>
+      <ion-icon slot="end" name="scan-outline"></ion-icon>
+      <ion-title class="ion-text-center">Hi! (nama toko)</ion-title>
     </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <ion-card style="border-radius:25px;background-color: #ff5b71">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="4">
+                <ion-label style="color: #0d0d0d">Now Queuing</ion-label>
+              </ion-col>
+              <ion-col size="4">
+                <ion-label class="circle-with-text">1</ion-label>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="10" offset="1">
+        <h3>Queue:</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <ion-card style="border-radius:25px;background-color: #ff5b71">
+          <ion-card-header style="padding-bottom: 6px">
+            <ion-row style="padding-bottom: 10px">
+              <ion-card-subtitle style="color: #ffffff">Number Queue</ion-card-subtitle>
+            </ion-row>
+            <ion-row>
+              <ion-col size="5">
+                <div class="circle-with-text">1</div>
+              </ion-col>
+              <ion-col size="7" style="color: #ffffff">
+                <ion-label>Pemesan: Hendry</ion-label> <br><br>
+                <ion-label>Tanggal: 27/10/2020</ion-label> <br><br>
+                <ion-label>Jam: 09:00 AM</ion-label> <br><br>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content style="padding-bottom: 0; padding-left: 0; padding-right: 0">
+            <ion-row style="background-color: #ffffff" justify-content-around>
+              <ion-col size="4">
+                <ion-button expand="block" fill="clear">
+                  <ion-icon slot="icon-only" name="notifications" style="color: #e0bb2e"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button expand="block" fill="clear">
+                  <ion-icon slot="icon-only" name="close" color="danger"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button expand="block" fill="clear">
+                  <ion-icon slot="icon-only" name="checkmark" color="success"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2">
+        <ion-card style="border-radius:25px;">
+          <ion-card-header style="padding-bottom: 6px">
+            <ion-row style="padding-bottom: 10px">
+              <ion-card-subtitle style="color: #000000">Number Queue</ion-card-subtitle>
+            </ion-row>
+            <ion-row>
+              <ion-col size="5">
+                <div class="circle-with-text">1</div>
+              </ion-col>
+              <ion-col size="7">
+                <ion-label style="color: #0d0d0d">Pemesan: Steven</ion-label> <br><br>
+                <ion-label style="color: #0d0d0d">Tanggal: 27/10/2020</ion-label> <br><br>
+                <ion-label style="color: #0d0d0d">Jam: 09:10 AM</ion-label> <br><br>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content style="padding-bottom: 0; padding-left: 0; padding-right: 0">
+            <ion-row style="background-color: #ff5b71" justify-content-around>
+              <ion-col size="4">
+                <ion-button expand="block" fill="clear">
+                  <ion-icon slot="icon-only" name="notifications" style="color: #e0bb2e"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button expand="block" fill="clear">
+                  <ion-icon slot="icon-only" name="close" color="danger"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button expand="block" fill="clear">
+                  <ion-icon slot="icon-only" name="checkmark" color="success"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
