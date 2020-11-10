@@ -12,17 +12,21 @@ export class FirebaseAuthService {
       public firebaseAuth: AngularFireAuth,
       private firebaseDB: AngularFireDatabase,
       private router: Router) { }
-
-    getUserState() {
-        return this.firebaseAuth.authState;
-    }
   async signIn(email: string, password: string){
     await this.firebaseAuth.signInWithEmailAndPassword(email, password)
         .then(res => {
           this.isLoggedIn = true;
           localStorage.setItem('user', JSON.stringify(res.user));
-          this.router.navigate(['/home']);
+          if (res.user.emailVerified){
+              this.router.navigate(['/home']);
+          }
+          else {
+              // please verified your email first
+          }
         });
+        // .catch(error => {
+        //    // error handler when no email found on firebase
+        // });
   }
   async signUp(name: string , email: string, password: string){
 
