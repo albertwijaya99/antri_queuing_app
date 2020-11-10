@@ -30,9 +30,15 @@
         <ion-label>Password</ion-label>
         <ion-input type="password" formControlName="confirmPassword"></ion-input>
       </ion-item>
+      <ion-item *ngIf="registerForm.controls.confirmPassword.errors?.notMatched">
+        <span style="color: red;" >
+          <small>Password not matched.</small>
+        </span>
+      </ion-item>
 
       <ion-button (click)="checkMatchingPassword()" [disabled]="registerForm.invalid">Register</ion-button>
     </ion-list>
   </form>
+
 
 </ion-content>
