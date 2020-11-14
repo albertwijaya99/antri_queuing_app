@@ -38,7 +38,7 @@ export class RegisterPage implements OnInit {
       this.registerToFirebase(this.registerForm.value.name , this.registerForm.value.email , this.registerForm.value.password);
     }
     else {
-      this.registerForm.controls.confirmPassword.setErrors({incorrect: true});
+      this.registerForm.controls.confirmPassword.setErrors({notMatched: true});
     }
   }
   registerToFirebase(nama: string , email: string, password: string){
