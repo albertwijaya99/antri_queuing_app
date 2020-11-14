@@ -37,7 +37,7 @@ export class FirebaseAuthService {
                   this.loading.dismiss();
               })
               .catch(() => {
-                  const msg = 'Wrong email or password';
+                  const msg = 'Wrong email or password.';
                   const color = 'danger';
                   this.presentToast(msg, color);
                   this.loading.dismiss();
@@ -56,10 +56,9 @@ export class FirebaseAuthService {
               await this.sendVerificationEmail();
               this.loading.dismiss();
           })
-          .catch(() => {
-              const msg = 'Something went wrong. Please try again.';
+          .catch(error => {
               const color = 'danger';
-              this.presentToast(msg, color);
+              this.presentToast(error.message, color);
               this.loading.dismiss();
           });
       });

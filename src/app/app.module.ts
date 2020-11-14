@@ -13,6 +13,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import QRCodeStyling from 'qr-code-styling';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { environment } from '../environments/environment';
       BrowserModule,
       IonicModule.forRoot(),
       AppRoutingModule,
+      QRCodeStyling
       ],
   providers: [
     StatusBar,
