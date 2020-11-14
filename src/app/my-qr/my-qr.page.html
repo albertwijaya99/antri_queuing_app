@@ -1,12 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-item>
-      <ion-icon name="menu"(click)="openMenu()"></ion-icon>
+      <ion-icon name="menu" (click)="openMenu()"></ion-icon>
       <ion-title>My QR Code</ion-title>
     </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div id="canvas"></div>
+  <ion-button (click)="downloadQr()">
+    Download QR
+  </ion-button>
 </ion-content>
