@@ -1,21 +1,15 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-item>
-      <ion-icon name="menu"(click)="openMenu()"></ion-icon>
-      <ion-title>History</ion-title>
-    </ion-item>
+<ion-header  no-border no-shadow>
+  <ion-toolbar class="bg-transparent">
+    <ion-title style="color: #0d0d0d">History</ion-title>
+    <ion-icon style="color: #0d0d0d; margin-left: 20px; font-size: x-large" slot="start" name="menu" (click)="openMenu()"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true">
   <ion-grid>
-    <ion-row size="12">
-      <ion-col size="12" >
-        <ion-item>
-          <ion-button style=" margin: auto; align-self: center;" color="tertiary">Guest</ion-button>
-          <ion-button style=" margin: auto; align-self: center;">Host</ion-button>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+    <ion-list class="bg-transparent">
+        <ion-button style=" margin: auto; align-self: center;" color="tertiary">Guest</ion-button>
+        <ion-button style=" margin: auto; align-self: center;">Host</ion-button>
+    </ion-list>
   </ion-grid>
 </ion-content>

@@ -1,12 +1,12 @@
 <ion-menu side="start" menuId="menu" contentId="mainApp">
-  <ion-header>
-    <ion-toolbar color="primary">
+  <ion-header no-border no-shadow>
+    <ion-toolbar class="bg-transparent">
       <!--      Side Menu-->
       <ion-title>Queue App</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content>
-    <ion-list>
+  <ion-content fullscreen="true">
+    <ion-list class="bg-transparent">
       <ion-menu-toggle menu="menu">
         <!--        Guest-->
         <ion-item (click)="closeMenu" [routerLink]="['/home']">
@@ -37,15 +37,14 @@
     </ion-list>
   </ion-content>
   <ion-footer>
-    <ion-toolbar>
       <!--      Exit-->
       <ion-item (click)="signOut()" style="cursor: pointer">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         <ion-label>Logout</ion-label>
       </ion-item>
-    </ion-toolbar>
   </ion-footer>
 </ion-menu>
+
 <ion-app>
   <ion-router-outlet id="mainApp"></ion-router-outlet>
 </ion-app>

@@ -1,6 +1,5 @@
 #container {
   text-align: center;
-
   position: absolute;
   left: 0;
   right: 0;
@@ -35,4 +34,15 @@
   text-align: center;
   font-size: 25px;
   display: flex;
+}
+ion-content{
+  --background: url(../../assets/img/contentWhite.png) 0 0/100% 100% no-repeat !important;
+  background-color: #fff;
+}
+.bg-transparent {
+  background-color: transparent;
+}
+ion-toolbar {
+  --background: url(../../assets/img/toolbar.png) 0 0/100% 100% no-repeat !important;
+  background-color: #fff;
 }
