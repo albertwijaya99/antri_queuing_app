@@ -1,7 +1,8 @@
 {
   "name": "antri_queuing_app",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
