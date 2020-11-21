@@ -1,3 +1,8 @@
 ion-content{
-  --ion-background-color:#ffffff;
+  --background: url(../../assets/img/contentWhite.png) 0 0/100% 100% no-repeat !important;
+  background-color: #fff;
+}
+ion-toolbar {
+  --background: url(../../assets/img/toolbar.png) 0 0/100% 100% no-repeat !important;
+  background-color: #fff;
 }

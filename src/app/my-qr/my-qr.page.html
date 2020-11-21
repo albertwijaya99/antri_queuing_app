@@ -1,15 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-item>
-      <ion-icon name="menu" (click)="openMenu()"></ion-icon>
-      <ion-title>My QR Code</ion-title>
-    </ion-item>
+<ion-header  no-border no-shadow>
+  <ion-toolbar class="bg-transparent">
+    <ion-title style="color: #0d0d0d">My QR Code</ion-title>
+    <ion-icon style="color: #0d0d0d; margin-left: 20px; font-size: x-large" slot="start" name="menu" (click)="openMenu()"></ion-icon>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <div id="canvas"></div>
-  <ion-button (click)="downloadQr()">
-    Download QR
-  </ion-button>
+<ion-content fullscreen="true">
+  <ion-grid>
+    <ion-row  class="ion-justify-content-center">
+      <label style="margin-top: 20px; margin-left: 20px; margin-right: 20px" id="canvas"></label>
+    </ion-row>
+    <br>
+    <ion-row class="ion-justify-content-center">
+      <label style="color: #0d0d0d">You'll be added to queue when your quest</label>
+    </ion-row>
+    <br>
+    <ion-row class="ion-justify-content-center">
+      <label style="color: #0d0d0d">scan your QR code.</label>
+    </ion-row>
+    <br>
+    <ion-row class="ion-justify-content-center">
+      <ion-icon (click)="downloadQr()" style="color: #0d0d0d; font-size: xx-large" name="download-outline"></ion-icon>
+      <ion-icon style="color: #0d0d0d; font-size: xx-large" name="print-outline"></ion-icon>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-label (click)="downloadQr()" style="color: #0d0d0d">Download</ion-label>
+      <ion-label style="color: #0d0d0d">Print</ion-label>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -3,6 +3,8 @@
 
 /** Ionic CSS Variables **/
 :root {
+  /** Peach **/
+  --ion-color-primary: #ffcba4;
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -229,4 +231,11 @@
 
     --ion-card-background: #1e1e1e;
   }
+  .title{
+    color: #0d0d0d
+  }
+  .bg-transparent{
+    background-color: transparent;
+  }
 }
+

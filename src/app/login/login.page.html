@@ -1,29 +1,36 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content padding>
+  <ion-grid>
+    <br><br>
+    <ion-row padding>
+      <img src="assets/img/item.svg" Style="margin: auto" alt=""><br>
+    </ion-row>
+    <br>
+  </ion-grid>
   <form [formGroup]="loginForm">
-    <ion-list>
-
-      <!--Form Email -->
-      <ion-item>
-        <ion-label>Email </ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
-
-      <!--Form Password-->
-      <ion-item>
-        <ion-label>Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-item>
-
-      <ion-button (click)="SignIn()" [disabled]="loginForm.invalid">Login</ion-button>
-    </ion-list>
+    <ion-grid>
+      <br><br><br><br><br><br><br><br><br><br>
+        <ion-list class="bg-transparent">
+          <!--Form Email -->
+          <ion-item color="none" lines="none">
+            <ion-label Style="color: #000000" position="floating">Email</ion-label>
+            <ion-input Style="color: #000000" type="email" formControlName="email" placeholder="your@email.com"></ion-input>
+          </ion-item><br>
+          <!--Form Password-->
+          <ion-item color="none" lines="none">
+            <ion-label Style="color: #000000" position="floating">Password</ion-label>
+            <ion-input Style="color: #000000" type="password" formControlName="password" placeholder="password"></ion-input>
+          </ion-item>
+          <ion-row class="ion-justify-content-end">
+            <label><a [routerLink]="['/forgot-password']" style="color: #e04055; font-size: 13px; margin-right: 20px">Forgot Password?</a></label>
+          </ion-row><br>
+          <ion-row class="ion-justify-content-center">
+            <ion-button (click)="SignIn()" [disabled]="loginForm.invalid" color="danger">Login</ion-button>
+          </ion-row>
+        </ion-list>
+      </ion-grid>
   </form>
-
-  <ion-button [routerLink]="['/register']">Register</ion-button>
-  <ion-button [routerLink]="['/forgot-password']">Forgot Password</ion-button>
+  <ion-row >
+    <label Style="color: #000000; margin: auto"> Don't have an account?  <a [routerLink]="['/register']" style="color: #e04055">Register Now</a>
+    </label>
+  </ion-row>
 </ion-content>

@@ -1,44 +1,46 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>register</ion-title>
+<ion-header  no-border no-shadow>
+  <ion-toolbar class="bg-transparent">
+      <ion-back-button class="back" slot="start" defaultHref="/login"></ion-back-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true" padding>
+  <br><br>
+  <ion-row >
+    <label class="labelRegister">Register</label>
+  </ion-row>
+  <br><br><br><br><br>
   <form [formGroup]="registerForm">
-    <ion-list>
-      <!--Form Nama-->
-      <ion-item>
-        <ion-label>Nama</ion-label>
-        <ion-input type="text" formControlName="name"></ion-input>
-      </ion-item>
+    <ion-grid>
+      <ion-list class="bg-transparent">
+        <!--Form Username-->
+        <ion-item color="none" lines="none">
+          <ion-label class="labelForm" position="floating">Username</ion-label>
+          <ion-input class="labelForm" type="text" formControlName="name"></ion-input>
+        </ion-item><br>
 
-      <!--Form Email -->
-      <ion-item>
-        <ion-label>Email </ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
+        <!--Form Email -->
+        <ion-item color="none" lines="none">
+          <ion-label class="labelForm" position="floating">Email </ion-label>
+          <ion-input class="labelForm" type="email" formControlName="email" placeholder="your@email.com"></ion-input>
+        </ion-item><br>
 
-      <!--Form Password-->
-      <ion-item>
-        <ion-label>Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-item>
+        <!--Form Password-->
+        <ion-item color="none" lines="none">
+          <ion-label class="labelForm" position="floating" >Password</ion-label>
+          <ion-input class="labelForm" type="password" formControlName="password" placeholder="password must be at least 8 characters"></ion-input>
+        </ion-item><br>
 
-      <!--Form Confirm Password-->
-      <ion-item>
-        <ion-label>Re-Password</ion-label>
-        <ion-input type="password" formControlName="confirmPassword"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="registerForm.controls.confirmPassword.errors?.notMatched">
-        <span style="color: red;" >
-          <small>Password not matched.</small>
-        </span>
-      </ion-item>
-
-      <ion-button (click)="checkMatchingPassword()" [disabled]="registerForm.invalid">Register</ion-button>
-    </ion-list>
+        <!--Form Confirm Password-->
+        <ion-item color="none" lines="none">
+          <ion-label class="labelForm" position="floating">Re-Password</ion-label>
+          <ion-input class="labelForm" type="password" formControlName="confirmPassword" placeholder="re-password must be the same as 'password'"></ion-input>
+        </ion-item><br><br>
+        <ion-row class="ion-justify-content-center">
+          <ion-button (click)="checkMatchingPassword()" [disabled]="registerForm.invalid" color="danger" >Register</ion-button>
+        </ion-row>
+      </ion-list>
+    </ion-grid>
   </form>
-
 
 </ion-content>

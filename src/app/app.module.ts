@@ -13,9 +13,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import { FileTransfer } from '@ionic-native/file-transfer/ngx';
-import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,12 +26,9 @@ import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
       AppRoutingModule,
       ],
   providers: [
-      StatusBar,
-      SplashScreen,
-      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-      BarcodeScanner,
-      FileTransfer,
-      AndroidPermissions
+    StatusBar,
+    SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
