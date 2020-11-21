@@ -2,12 +2,21 @@ ion-content{
   --background: url(../../assets/img/Register.png) 0 0/100% 100% no-repeat !important;
   background-color: #fff;
 }
-.bg-transparent {
-  background-color: transparent;
-}
 ion-toolbar {
   --background: transparent;
   --ion-color-base: transparent !important;
+}
+.labelForm{
+  color: #000000;
+}
+.labelRegister{
+  color: #000000;
+  margin: auto;
+  font-weight:bold;
+  font-size:xx-large
+}
+.back{
+  color: #0d0d0d
 }
 
 

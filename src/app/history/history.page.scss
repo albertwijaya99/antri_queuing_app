@@ -2,10 +2,13 @@ ion-content{
   --background: url(../../assets/img/contentWhite.png) 0 0/100% 100% no-repeat !important;
   background-color: #fff;
 }
-.bg-transparent {
-  background-color: transparent;
-}
 ion-toolbar {
   --background: url(../../assets/img/toolbar.png) 0 0/100% 100% no-repeat !important;
   background-color: #fff;
 }
+.icontoolbar{
+  color: #0d0d0d;
+  margin-left: 20px;
+  font-size: x-large
+}
+
