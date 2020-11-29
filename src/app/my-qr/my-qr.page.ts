@@ -29,7 +29,7 @@ export class MyQRPage implements OnInit {
       this.qrCode = new QRCodeStyling({
           width: 300,
           height: 300,
-          data: this.user.email,
+          data: this.user.uid,
           image: 'assets/img/logo2.png',
           dotsOptions: {
               type: 'rounded'

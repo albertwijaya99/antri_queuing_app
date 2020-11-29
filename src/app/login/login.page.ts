@@ -18,7 +18,7 @@ export class LoginPage implements OnInit {
         validators: [Validators.email, Validators.required]
       }),
       password: new FormControl(null, {
-        updateOn: 'blur',
+        updateOn: 'change',
         validators: [Validators.minLength(8), Validators.required]
       })
     });
