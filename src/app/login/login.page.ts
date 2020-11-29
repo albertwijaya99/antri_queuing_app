@@ -25,5 +25,6 @@ export class LoginPage implements OnInit {
   }
   SignIn(){
     this.firebaseAuthService.signIn(this.loginForm.value.email , this.loginForm.value.password);
+    this.loginForm.reset();
   }
 }

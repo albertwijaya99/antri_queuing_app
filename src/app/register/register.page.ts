@@ -43,5 +43,6 @@ export class RegisterPage implements OnInit {
   }
   registerToFirebase(nama: string , email: string, password: string){
     this.firebaseAuthService.signUp(nama , email, password);
+    this.registerForm.reset();
   }
 }
