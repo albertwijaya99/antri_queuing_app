@@ -16,7 +16,7 @@ import { environment } from '../environments/environment';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
-
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -34,7 +34,8 @@ import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
       { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
       BarcodeScanner,
       FileTransfer,
-      AndroidPermissions
+      AndroidPermissions,
+      DatePipe,
   ],
   bootstrap: [AppComponent]
 })

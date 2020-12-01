@@ -2,21 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import {ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {FirebaseAuthService} from "../firebase-auth.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-qr-scanner',
   templateUrl: './qr-scanner.page.html',
   styleUrls: ['./qr-scanner.page.scss'],
+  providers: [DatePipe]
 })
 export class QrScannerPage implements OnInit {
-
+  private currentDate: Date;
+  private currentDateString: String;
   constructor(
       private barcodeScanner: BarcodeScanner,
       private toastCtrl: ToastController,
-      private router: Router
+      private firebaseAuthService: FirebaseAuthService,
+      private router: Router,
+      private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
+    this.currentDate = new Date();
+    this.currentDateString = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
+
     this.barcodeScanner.scan({
       preferFrontCamera : false, // iOS and Android
       prompt : 'Place a barcode inside the scan area', // Android
@@ -29,6 +38,7 @@ export class QrScannerPage implements OnInit {
         this.router.navigateByUrl('/home');
       } else {
         // code to append user to queuing list
+        this.firebaseAuthService.addMeToQueueList(barcodeData.text)
         this.presentToast(barcodeData.text, 'success');
         this.router.navigateByUrl('/home');
       }
