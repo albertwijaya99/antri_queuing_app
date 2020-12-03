@@ -7,6 +7,7 @@ import {DatePipe} from "@angular/common";
 import {snapshotChanges} from "@angular/fire/database";
 import {async} from "@angular/core/testing";
 import {queue} from "rxjs/internal/scheduler/queue";
+import {FormGroup, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-host',
@@ -23,8 +24,8 @@ export class HostPage implements OnInit {
   nowQueueList = []; //contain current queue
   totalQueue: any;
   currentDate = new Date();
-  // dateString = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-  dateString = '2020-12-04';
+  dateString = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
+  //dateString = '2020-12-04';
   refPath = 'Queue/'+this.dateString+'/'+this.uid;
   constructor(
       private menuCtrl: MenuController,
@@ -111,5 +112,13 @@ export class HostPage implements OnInit {
     })
     this.ionViewWillEnter()
   }
+  submitNewHostNameForm(form: NgForm){
+    this.firebaseAuthService.firebaseDB.object('Users/'+this.uid).update({
+      host_name: form.value.newHostName
+    })
+    form.form.reset();
+    this.ngOnInit()
+  }
+
 
 }
