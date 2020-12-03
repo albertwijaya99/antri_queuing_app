@@ -4,10 +4,12 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
+
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
     }
   },
+  "linuxAndroidStudioPath": "/home/ubuntu/Downloads/android-studio-ide-201.6858069-linux/android-studio/bin/studio.sh",
   "cordova": {}
 }

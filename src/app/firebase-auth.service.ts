@@ -1,7 +1,7 @@
 import {Component, Injectable, NgModule} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireDatabase,AngularFireList, AngularFireObject} from '@angular/fire/database';
 import {LoadingController, ToastController} from '@ionic/angular';
 import {Observable} from "rxjs";
 import {DatePipe} from "@angular/common";
@@ -14,6 +14,7 @@ export class FirebaseAuthService {
   loading = null;
   localStorageUser : any;
   localStorageUserDB : any;
+  queueList: AngularFireList<any>;
   constructor(
       public firebaseAuth: AngularFireAuth,
       public firebaseDB: AngularFireDatabase,
@@ -28,7 +29,6 @@ export class FirebaseAuthService {
               .then(res => {
                   if (res.user.emailVerified){
                       localStorage.setItem('user', JSON.stringify(res.user));
-
                       //set data on firebase realtime database to localstorage
                       this.firebaseDB.database.ref('Users/'+res.user.uid).once('value').then((snapshot) => {
                           localStorage.setItem('userDB',JSON.stringify(snapshot.val()));
@@ -147,27 +147,24 @@ export class FirebaseAuthService {
                 localStorage.setItem('user2',JSON.stringify(snapshot.val()));
             });
             var QueueTime = this.datePipe.transform(currentDate, 'HH:mm:ss');
-            console.log(refPath);
-            console.log(lastQueue);
-            if(lastQueue == 1){
-                //first queue
-                this.firebaseDB.database.ref(refPath+'/'+lastQueue).set({
-                    name: this.localStorageUserDB.guest_name,
-                    status: "current",
-                    email: this.localStorageUser.email,
-                    time: QueueTime
-                });
-            }
-            else{
-                this.firebaseDB.database.ref(refPath+'/'+lastQueue).set({
-                    name: this.localStorageUserDB.guest_name,
-                    status: "waiting",
-                    email: this.localStorageUser.email,
-                    time: QueueTime
-                });
-            }
-
-
+            this.firebaseDB.database.ref(refPath+'/'+lastQueue).set({
+                name: this.localStorageUserDB.guest_name,
+                status: "waiting",
+                email: this.localStorageUser.email,
+                time: QueueTime
+            });
         });
     }
+    getAllWaitingQueueList(HostUID){
+
+        var currentDate = new Date();
+        // var dateString = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+        var dateString = '2020-11-30';
+        var refPath = 'Queue/'+dateString+'/'+HostUID;
+        this.queueList = this.firebaseDB.list(refPath);
+        return this.queueList;
+
+    }
+
+
 }
