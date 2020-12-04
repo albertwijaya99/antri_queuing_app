@@ -70,7 +70,7 @@ export class HomePage implements OnInit{
                 date.forEach(function (hid) {
                     hid.forEach(function (queueNumber) {
                         queueNumber.forEach(function (user) {
-                            if (user.val().email === userName && user.val().status !== 'cancelled') {
+                            if (user.val().email === userName && ['current', 'waiting'].includes(user.val().status)) {
                                 qNumber = user.key;
                                 hostId = user.ref.parent.key;
                             }
