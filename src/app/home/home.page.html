@@ -7,6 +7,13 @@
 </ion-header>
 
 <ion-content>
+  <ion-item *ngFor="let Q of myQ">
+    now queuing = {{Q[2]}} <br />
+    queue number = {{Q[0]}} <br />
+    host name = {{Q[3]}} <br/>
+
+    <ion-button (click)="deleteQ(Q[1], Q[0])">X</ion-button>
+  </ion-item>
   <ion-grid>
     <ion-list class="bg-transparent">
       <ion-row>
