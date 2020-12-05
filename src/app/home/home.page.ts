@@ -53,6 +53,15 @@ export class HomePage implements OnInit{
     async ionViewWillEnter(){
         this.myQ = [];
         await this.getMyQueue();
+        for (const Q of this.myQ) {
+            await this.firebaseDB
+                .database
+                .ref('Queue/' + Q[3] + '/')
+                .on('child_changed', function(snap) {
+                    console.log(Q[3]);
+                    location.reload();
+                });
+        }
     }
 
     async getMyQueue() {
@@ -61,6 +70,7 @@ export class HomePage implements OnInit{
         let qNumber;
         let hostId;
         let hostName;
+        let qDate;
         this.localStorageUserDB = JSON.parse(localStorage.getItem('userDB'));
         const userName = this.localStorageUserDB.email;
         await this.firebaseDB
@@ -73,6 +83,7 @@ export class HomePage implements OnInit{
                             if (user.val().email === userName && ['current', 'waiting'].includes(user.val().status)) {
                                 qNumber = user.key;
                                 hostId = user.ref.parent.key;
+                                qDate = user.ref.parent.parent.key;
                             }
                         });
                         queueNumber.forEach(function (user) {
@@ -81,7 +92,7 @@ export class HomePage implements OnInit{
                             }
                         });
                         if (qNumber && hostId && nowQ){
-                            myQ.push([qNumber, hostId, nowQ]);
+                            myQ.push([qNumber, hostId, nowQ, qDate]);
                         }
                     });
                 });
