@@ -13,22 +13,29 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
       AngularFireModule.initializeApp(environment.firebase),
-      AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+      AngularFirestoreModule, // imports firebase/firestore, only needed for danpm install cordova-plugin-android-permissionstabase features
       AngularFireAuthModule, // imports firebase/auth, only needed for auth features
       BrowserModule,
       IonicModule.forRoot(),
       AppRoutingModule,
       ],
   providers: [
-    StatusBar,
-    SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+      StatusBar,
+      SplashScreen,
+      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+      BarcodeScanner,
+      FileTransfer,
+      AndroidPermissions,
+      DatePipe,
   ],
   bootstrap: [AppComponent]
 })

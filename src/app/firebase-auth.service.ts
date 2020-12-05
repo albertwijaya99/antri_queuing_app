@@ -1,29 +1,38 @@
-import { Injectable } from '@angular/core';
+import {Component, Injectable, NgModule} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireDatabase,AngularFireList, AngularFireObject} from '@angular/fire/database';
 import {LoadingController, ToastController} from '@ionic/angular';
+import {Observable} from "rxjs";
+import {DatePipe} from "@angular/common";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
 export class FirebaseAuthService {
-  isLoggedIn = false;
   loading = null;
+  localStorageUser : any;
+  localStorageUserDB : any;
+  queueList: AngularFireList<any>;
   constructor(
       public firebaseAuth: AngularFireAuth,
-      private firebaseDB: AngularFireDatabase,
+      public firebaseDB: AngularFireDatabase,
       private router: Router,
       private toastCtrl: ToastController,
-      private loadingCtrl: LoadingController
+      private loadingCtrl: LoadingController,
+      private datePipe: DatePipe
   ) { }
   async signIn(email: string, password: string){
       await this.presentLoading().then(() => {
           this.firebaseAuth.signInWithEmailAndPassword(email, password)
               .then(res => {
-                  this.isLoggedIn = true;
-                  localStorage.setItem('user', JSON.stringify(res.user));
                   if (res.user.emailVerified){
+                      localStorage.setItem('user', JSON.stringify(res.user));
+                      //set data on firebase realtime database to localstorage
+                      this.firebaseDB.database.ref('Users/'+res.user.uid).once('value').then((snapshot) => {
+                          localStorage.setItem('userDB',JSON.stringify(snapshot.val()));
+                      });
                       this.router.navigate(['/home']);
                       const msg = 'Logged in!';
                       const color = 'success';
@@ -51,7 +60,8 @@ export class FirebaseAuthService {
               const path = 'Users/' + resSignUp.user.uid;
               await this.firebaseDB.object(path).set({
                   email,
-                  name,
+                  host_name: name,
+                  guest_name : name,
               });
               await this.sendVerificationEmail();
               this.loading.dismiss();
@@ -125,4 +135,36 @@ export class FirebaseAuthService {
         });
         await this.loading.present();
     }
+    async addMeToQueueList(HostUID){
+        this.localStorageUser = JSON.parse(localStorage.getItem('user'));
+        this.localStorageUserDB = JSON.parse(localStorage.getItem('userDB'));
+        var currentDate = new Date();
+        var dateString = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+        var refPath = 'Queue/'+dateString+'/'+HostUID;
+        this.firebaseDB.database.ref(refPath).once('value').then((snapshot) => {
+            var lastQueue = snapshot.numChildren()+1;
+            this.firebaseDB.database.ref('User/'+this.localStorageUser.uid).once('value').then((snapshot) => {
+                localStorage.setItem('user2',JSON.stringify(snapshot.val()));
+            });
+            var QueueTime = this.datePipe.transform(currentDate, 'HH:mm:ss');
+            this.firebaseDB.database.ref(refPath+'/'+lastQueue).set({
+                name: this.localStorageUserDB.guest_name,
+                status: "waiting",
+                email: this.localStorageUser.email,
+                time: QueueTime
+            });
+        });
+    }
+    getAllWaitingQueueList(HostUID){
+
+        var currentDate = new Date();
+        // var dateString = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+        var dateString = '2020-11-30';
+        var refPath = 'Queue/'+dateString+'/'+HostUID;
+        this.queueList = this.firebaseDB.list(refPath);
+        return this.queueList;
+
+    }
+
+
 }
