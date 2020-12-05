@@ -1,22 +1,17 @@
-<ion-header  no-border no-shadow>
-  <ion-toolbar class="bg-transparent">
-      <ion-back-button class="back" slot="start" defaultHref="/login"></ion-back-button>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content fullscreen="true" padding>
-  <br><br>
-  <ion-row >
+  <br><br><br>
+  <ion-row>
     <label class="labelRegister">Register</label>
   </ion-row>
-  <br><br><br><br><br>
+  <br><br><br><br>
   <form [formGroup]="registerForm">
     <ion-grid>
       <ion-list class="bg-transparent">
+        <br>
         <!--Form Username-->
         <ion-item color="none" lines="none">
           <ion-label class="labelForm" position="floating">Username</ion-label>
-          <ion-input class="labelForm" type="text" formControlName="name"></ion-input>
+          <ion-input class="labelForm" type="text" formControlName="name" placeholder="username"></ion-input>
         </ion-item><br>
 
         <!--Form Email -->
@@ -37,8 +32,11 @@
           <ion-input class="labelForm" type="password" formControlName="confirmPassword" placeholder="re-password must be the same as 'password'"></ion-input>
         </ion-item><br><br>
         <ion-row class="ion-justify-content-center">
-          <ion-button (click)="checkMatchingPassword()" [disabled]="registerForm.invalid" color="danger" >Register</ion-button>
+          <ion-button (click)="check()" color="danger" >Register</ion-button>
         </ion-row>
+        <ion-item color="none" lines="none">
+          <label Style="color: #000000; margin: auto"> Have an account?  <a [routerLink]="['/login']" style="color: #e04055">Click here</a></label>
+        </ion-item><br><br>
       </ion-list>
     </ion-grid>
   </form>
