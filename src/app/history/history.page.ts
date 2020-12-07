@@ -18,12 +18,16 @@ export class HistoryPage implements OnInit {
   uid = this.localStorageUser.uid;
   guestQ = [];
   hostQ = [];
+  private active: any;
   constructor(
       private menuCtrl: MenuController,
       private firebaseAuthService: FirebaseAuthService,
       public firebaseDB: AngularFireDatabase,
       private router: Router,
   ) { }
+      private menuCtrl: MenuController
+  ) {
+}
   async openMenu(){
     await this.menuCtrl.enable(true, 'menu');
     await this.menuCtrl.open('menu');
@@ -84,5 +88,9 @@ export class HistoryPage implements OnInit {
           });
     }
     this.guestQ = guestQ;
+  }
+
+  updateActive(active) {
+    this.active = active;
   }
 }

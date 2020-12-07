@@ -12,3 +12,13 @@ ion-toolbar {
   font-size: x-large
 }
 
+ion-content {
+  --background: url(../../assets/img/contentWhite.png) 0 0/100% 100% no-repeat !important;
+  background-color: #fff;
+}
+
+ion-button{
+  --background: #FFBFA8;
+  --color: black;
+}
+

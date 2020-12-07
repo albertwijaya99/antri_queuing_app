@@ -1,3 +1,16 @@
 .bg-transparent {
   background-color: transparent;
 }
+
+ion-menu {
+  --ion-background-color: #fff;
+  --ion-text-color: black;
+
+  ion-toolbar {
+    --background: #FB607F;
+  }
+
+.logout {
+    --background: #FFBFA8;
+  }
+}
