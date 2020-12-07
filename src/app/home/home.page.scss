@@ -26,6 +26,7 @@
 .circle-with-text {
   justify-content: center;
   align-items: center;
+  background-image: url(../../assets/img/circle2.png);
   width: 90px;
   height: 90px;
   border-radius: 100%;
@@ -33,6 +34,7 @@
   font-size: 25px;
   display: flex;
 }
+
 ion-content{
   --background: url(../../assets/img/contentWhite.png) 0 0/100% 100% no-repeat !important;
   background-color: #fff;
