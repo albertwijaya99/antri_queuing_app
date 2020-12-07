@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuController} from '@ionic/angular';
-import {FirebaseAuthService} from "../firebase-auth.service";
-import {Router} from "@angular/router";
-import {Observable} from "rxjs";
-import {AngularFireDatabase} from "@angular/fire/database";
+import {FirebaseAuthService} from '../firebase-auth.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 
 @Component({
@@ -25,15 +25,12 @@ export class HistoryPage implements OnInit {
       public firebaseDB: AngularFireDatabase,
       private router: Router,
   ) { }
-      private menuCtrl: MenuController
-  ) {
-}
   async openMenu(){
     await this.menuCtrl.enable(true, 'menu');
     await this.menuCtrl.open('menu');
   }
   ngOnInit(){
-    //get name from firebase + check session
+    // get name from firebase + check session
     this.user = this.firebaseAuthService.firebaseAuth.authState;
     this.user.subscribe((user) => {
       if (user) {
@@ -61,10 +58,10 @@ export class HistoryPage implements OnInit {
     await this.firebaseDB
         .database
         .ref('Queue')
-        .once('value', function (date) {
-          date.forEach(function (hid) {
-            hid.forEach(function (queueNumber) {
-              queueNumber.forEach(function (user) {
+        .once('value', function(date) {
+          date.forEach(function(hid) {
+            hid.forEach(function(queueNumber) {
+              queueNumber.forEach(function(user) {
                 if (user.val().email === userName) {
                   const hostId = user.ref.parent.key;
                   const qDate = user.ref.parent.parent.key;
@@ -82,7 +79,7 @@ export class HistoryPage implements OnInit {
           .database
           .ref('Users')
           .child(q[0])
-          .once('value', function (snaps) {
+          .once('value', function(snaps) {
             const hostName = snaps.val().host_name;
             q.push(hostName);
           });
