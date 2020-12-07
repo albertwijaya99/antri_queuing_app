@@ -131,8 +131,8 @@ export class HostPage implements OnInit {
     this.presentNewHostNameLoading().then(() => {
       this.firebaseAuthService.firebaseDB.object('Users/'+this.uid).update({
         host_name: newName
-      })
-      this.ngOnInit()
+      });
+      this.ngOnInit();
       this.presentNewHostNameToast();
     });
   }
