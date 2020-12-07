@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuController} from '@ionic/angular';
+import {AlertController, LoadingController, MenuController, ToastController} from '@ionic/angular';
 import {FirebaseAuthService} from "../firebase-auth.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
@@ -32,6 +32,9 @@ export class HostPage implements OnInit {
       private firebaseAuthService: FirebaseAuthService,
       private router: Router,
       private datePipe: DatePipe,
+      private alertCtrl: AlertController,
+      private toastCtrl: ToastController,
+      private loadingCtrl: LoadingController,
   ) { }
 
   ngOnInit(){
@@ -52,6 +55,7 @@ export class HostPage implements OnInit {
       }
     });
   }
+
   ionViewWillEnter(){
     this.queueList = [];
     this.nowQueueList = [];
@@ -63,6 +67,7 @@ export class HostPage implements OnInit {
     await this.menuCtrl.enable(true, 'menu');
     await this.menuCtrl.open('menu');
   }
+
   getQueueList(){
     for(let i = 1; i<= this.totalQueue; i++){
       this.firebaseAuthService.firebaseDB.database.ref(this.refPath+'/'+i).once('value').then((snapshot => {
@@ -88,37 +93,200 @@ export class HostPage implements OnInit {
       }))
     }
   }
+
   getTotalQueue(){
     this.firebaseAuthService.firebaseDB.database.ref(this.refPath).once('value').then((snapshot => {
       this.totalQueue = snapshot.numChildren();
       this.getQueueList();
     }))
   }
-  cancelQueueBUtton(index){
-    this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+index).update({
-      status: "cancelled"
-    })
-    this.ionViewWillEnter()
+
+  cancelQueueButton(index){
+    this.presentDeleteLoading().then(() => {
+      this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+index).update({
+        status: "cancelled"
+      });
+        this.ionViewWillEnter();
+        this.presentDeleteToast();
+    });
   }
+  
   nextQueueButton(index){
-    if(this.nowQueueList.length>0){
-      this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+this.nowQueueList[0]['queueNumber']).update({
-        status: "done"
+    this.presentDoneLoading().then(() => {
+      if(this.nowQueueList.length>0){
+        this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+this.nowQueueList[0]['queueNumber']).update({
+          status: "done"
+        })
+      }
+
+      this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+index).update({
+        status: "current"
       })
-    }
-
-    this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+index).update({
-      status: "current"
-    })
-    this.ionViewWillEnter()
-  }
-  submitNewHostNameForm(form: NgForm){
-    this.firebaseAuthService.firebaseDB.object('Users/'+this.uid).update({
-      host_name: form.value.newHostName
-    })
-    form.form.reset();
-    this.ngOnInit()
+      this.ionViewWillEnter();
+      this.presentDoneToast();
+    });
   }
 
+  submitNewHostNameForm(newName: String){
+    this.presentNewHostNameLoading().then(() => {
+      this.firebaseAuthService.firebaseDB.object('Users/'+this.uid).update({
+        host_name: newName
+      })
+      this.ngOnInit()
+      this.presentNewHostNameToast();
+    });
+  }
+
+  async presentNewHostNameToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Name saved.',
+      duration: 2000,
+      color: 'success'
+    });
+    await toast.present();
+  }
+
+  async presentNewHostNameAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Change Host Name',
+      inputs: [
+        {
+          name: 'HostName',
+          id: 'newHostName',
+          type: 'text',
+          placeholder: 'New Host Name'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => this.submitNewHostNameForm(data['HostName']),
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async presentNewHostNameLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Saving new host name...',
+      duration: 500
+    });
+    await loading.present();
+    const {role, data} = await loading.onDidDismiss();
+    console.log('Loading dismissed');
+  }
+
+  async presentNotifToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Costumer have been notify',
+      duration: 2000,
+      color: 'success'
+    });
+    await toast.present();
+  }
+
+  async presentNotifAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure want to notify the costumer?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Notify',
+          handler: () => console.log('notify'),
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async presentNotifLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Notifying the costumer...',
+      duration: 500
+    });
+    await loading.present();
+    const {role, data} = await loading.onDidDismiss();
+    console.log('Loading dismissed');
+  }
+
+  async presentDeleteToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Queue deleted.',
+      duration: 2000,
+      color: 'success'
+    });
+    await toast.present();
+  }
+
+  async presentDeleteAlert(id: number) {
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure want to delete this queue?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: () => this.cancelQueueButton(id),
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async presentDeleteLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Deleting queue...',
+      duration: 500
+    });
+    await loading.present();
+    const {role, data} = await loading.onDidDismiss();
+    console.log('Loading dismissed');
+  }
+
+  async presentDoneToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Queue updated.',
+      duration: 2000,
+      color: 'success'
+    });
+    await toast.present();
+  }
+
+  async presentDoneAlert(id: number) {
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure want to update this queue?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Update',
+          handler: () => this.nextQueueButton(id),
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async presentDoneLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating queue...',
+      duration: 500
+    });
+    await loading.present();
+    const {role, data} = await loading.onDidDismiss();
+    console.log('Loading dismissed');
+  }
 
 }

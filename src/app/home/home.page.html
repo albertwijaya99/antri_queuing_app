@@ -8,50 +8,48 @@
 
 <ion-content>
   <ion-item *ngFor="let Q of myQ">
-    now queuing = {{Q[2]}} <br />
-    queue number = {{Q[0]}} <br />
-    host name = {{Q[3]}} <br/>
+    <ion-label>now queuing = {{Q[5]}}</ion-label>
 
     <ion-button (click)="deleteQ(Q[1], Q[0])">X</ion-button>
   </ion-item>
-  <ion-grid>
-    <ion-list class="bg-transparent">
-      <ion-row>
+  <ion-grid *ngIf="myQ.length>0">
+    <ion-list class="bg-transparent" *ngFor="let Q of myQ">
+      <ion-row *ngIf="Q[4] % 2 == 1">
         <ion-col size="12" size-sm="8" offset-sm="2">
           <ion-card style="border-radius:25px;background-color: #ff5b71">
             <ion-card-header style="padding-bottom: 6px">
               <ion-item color="transparant" lines="none">
                 <ion-card-subtitle style="color: #ffffff">Number Queue</ion-card-subtitle>
-                <ion-icon slot="end" name="close"></ion-icon>
+                <ion-icon slot="end" name="close" (click)="presentDeleteAlert(Q[1], Q[0])"></ion-icon>
               </ion-item>
               <ion-row>
-                <ion-col size="4">
-                  <div class="circle-with-text">1</div>
+                <ion-col size="5" style="padding-left:20px">
+                  <div class="circle-with-text">{{Q[0]}}</div>
                 </ion-col>
-                <ion-col size="8" style="padding-top:20px;color: #ffffff">
-                  <ion-label>Now queuing: 3</ion-label>
-                  <h6 style="margin-top:10px">Ayam Goreng H.J Adi</h6>
+                <ion-col size="7" style="padding-top:20px;color: #ffffff">
+                  <ion-label>Now queuing: {{Q[2]}}</ion-label>
+                  <h6 style="margin-top:10px">{{Q[5]}}</h6>
                 </ion-col>
               </ion-row>
             </ion-card-header>
           </ion-card>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row *ngIf="Q[4] % 2 == 0">
         <ion-col size="12" size-sm="8" offset-sm="2">
           <ion-card style="border-radius:25px;background-color: #ffffff">
             <ion-card-header style="padding-bottom: 6px">
               <ion-item color="transparant" lines="none">
                 <ion-card-subtitle style="color: #0d0d0d">Number Queue</ion-card-subtitle>
-                <ion-icon slot="end" name="close" style="color: #0d0d0d"></ion-icon>
+                <ion-icon slot="end" name="close" style="color: #0d0d0d" (click)="presentDeleteAlert(Q[1], Q[0])"></ion-icon>
               </ion-item>
               <ion-row>
-                <ion-col size="4">
-                  <div class="circle-with-text">4</div>
+                <ion-col size="5" style="padding-left:20px">
+                  <div class="circle-with-text">{{Q[0]}}</div>
                 </ion-col>
-                <ion-col size="8" style="padding-top:20px;color: #0d0d0d">
-                  <ion-label>Now queuing: 5</ion-label>
-                  <h6 style="margin-top:10px">Bengkel Adi</h6>
+                <ion-col size="7" style="padding-top:20px;color: #0d0d0d">
+                  <ion-label>Now queuing: {{Q[2]}}</ion-label>
+                  <h6 style="margin-top:10px">{{Q[5]}}</h6>
                 </ion-col>
               </ion-row>
             </ion-card-header>
@@ -60,4 +58,7 @@
       </ion-row>
     </ion-list>
   </ion-grid>
+  <div *ngIf="myQ.length==0" text-center style="padding-top: 30%">
+    <ion-img width="150" height="150" src="assets/img/noAntriGuest.png"></ion-img>
+  </div>
 </ion-content>

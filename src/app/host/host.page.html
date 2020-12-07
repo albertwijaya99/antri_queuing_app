@@ -1,10 +1,6 @@
 <ion-header  no-border no-shadow>
   <ion-toolbar class="bg-transparent">
-    <ion-title style="color: #0d0d0d" class="ion-text-center" >Hi! {{host_name}}</ion-title>
-    <form #f="ngForm" (ngSubmit)="submitNewHostNameForm(f)" style="color: black">
-      <ion-input type="text" ngModel name="newHostName"></ion-input>
-      <ion-button type="submit" color="primary"> Save Gan</ion-button>
-    </form>
+    <ion-title style="color: #0d0d0d" class="ion-text-center" (click)="presentNewHostNameAlert()">Hi! {{host_name}}</ion-title>
     <ion-icon style="color: #0d0d0d; margin-left: 20px; font-size: x-large" slot="start" name="menu" (click)="openMenu()"></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -38,50 +34,98 @@
         </ion-card>
       </ion-col>
     </ion-row>
+  </ion-grid>
+  <ion-grid>
     <ion-row>
       <ion-col size="10" offset="1">
         <h3 style="color: #0d0d0d">Queue:</h3>
       </ion-col>
     </ion-row>
-    <ion-row *ngFor="let queue of queueList">
-      <ion-col size="12" size-sm="8" offset-sm="2">
-        <ion-card style="border-radius:25px;background-color: #ff5b71">
-          <ion-card-header style="padding-bottom: 6px">
-            <ion-row style="padding-bottom: 10px">
-              <ion-card-subtitle style="color: #ffffff">Number Queue</ion-card-subtitle>
-            </ion-row>
-            <ion-row>
-              <ion-col size="5">
-                <div class="circle-with-text">{{queue.queueNumber}}</div>
-              </ion-col>
-              <ion-col size="7" style="color: #ffffff">
-                <ion-label>Pemesan: {{queue.name}} </ion-label> <br><br>
-                <ion-label>Tanggal: {{queue.date}} </ion-label> <br><br>
-                <ion-label>Jam: {{queue.time}}</ion-label> <br><br>
-              </ion-col>
-            </ion-row>
-          </ion-card-header>
-          <ion-card-content style="padding-bottom: 0; padding-left: 0; padding-right: 0">
-            <ion-row style="background-color: #ffffff" justify-content-around>
-              <ion-col size="4">
-                <ion-button expand="block" fill="clear">
-                  <ion-icon slot="icon-only" name="notifications" style="color: #e0bb2e"></ion-icon>
-                </ion-button>
-              </ion-col>
-              <ion-col size="4">
-                <ion-button expand="block" fill="clear" (click)="cancelQueueBUtton(queue.queueNumber)">
-                  <ion-icon slot="icon-only" name="close" color="danger" ></ion-icon>
-                </ion-button>
-              </ion-col>
-              <ion-col size="4">
-                <ion-button expand="block" fill="clear" (click)="nextQueueButton(queue.queueNumber)">
-                  <ion-icon slot="icon-only" name="checkmark" color="success" ></ion-icon>
-                </ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+    <div *ngFor="let queue of queueList">
+      <div *ngIf="queue.queueNumber % 2 == 1">
+        <ion-row>
+          <ion-col size="12" size-sm="8" offset-sm="2">
+            <ion-card style="border-radius:25px;background-color: #ff5b71">
+              <ion-card-header style="padding-bottom: 6px">
+                <ion-row style="padding-bottom: 10px">
+                  <ion-card-subtitle style="color: #ffffff">Number Queue</ion-card-subtitle>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="5">
+                    <div class="circle-with-text">{{queue.queueNumber}}</div>
+                  </ion-col>
+                  <ion-col size="7" style="color: #ffffff">
+                    <ion-label>Pemesan: {{queue.name}} </ion-label> <br><br>
+                    <ion-label>Tanggal: {{queue.date}} </ion-label> <br><br>
+                    <ion-label>Jam: {{queue.time}}</ion-label> <br><br>
+                  </ion-col>
+                </ion-row>
+              </ion-card-header>
+              <ion-card-content style="padding-bottom: 0; padding-left: 0; padding-right: 0">
+                <ion-row style="background-color: #ffffff" justify-content-around>
+                  <ion-col size="4">
+                    <ion-button expand="block" fill="clear">
+                      <ion-icon slot="icon-only" name="notifications" style="color: #ffca22"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-button expand="block" fill="clear" (click)="presentDeleteAlert(queue.queueNumber)">
+                      <ion-icon slot="icon-only" name="close" color="danger" ></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-button expand="block" fill="clear" (click)="presentDoneAlert(queue.queueNumber)">
+                      <ion-icon slot="icon-only" name="checkmark" color="success" ></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div *ngIf="queue.queueNumber % 2 == 0">
+        <ion-row>
+          <ion-col size="12" size-sm="8" offset-sm="2">
+            <ion-card style="border-radius:25px;background-color: #ffffff">
+              <ion-card-header style="padding-bottom: 6px">
+                <ion-row style="padding-bottom: 10px">
+                  <ion-card-subtitle style="color: #0d0d0d">Number Queue</ion-card-subtitle>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="5">
+                    <div class="circle-with-text">{{queue.queueNumber}}</div>
+                  </ion-col>
+                  <ion-col size="7" style="color: #0d0d0d">
+                    <ion-label>Pemesan: {{queue.name}} </ion-label> <br><br>
+                    <ion-label>Tanggal: {{queue.date}} </ion-label> <br><br>
+                    <ion-label>Jam: {{queue.time}}</ion-label> <br><br>
+                  </ion-col>
+                </ion-row>
+              </ion-card-header>
+              <ion-card-content style="padding-bottom: 0; padding-left: 0; padding-right: 0">
+                <ion-row style="background-color: #ff5b71" justify-content-around>
+                  <ion-col size="4">
+                    <ion-button expand="block" fill="clear">
+                      <ion-icon slot="icon-only" name="notifications" style="color: #ffca22" (click)="presentNotifAlert()"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-button expand="block" fill="clear" (click)="presentDeleteAlert(queue.queueNumber)">
+                      <ion-icon slot="icon-only" name="close" style="color:#cf3c4f" ></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-button expand="block" fill="clear" (click)="presentDoneAlert(queue.queueNumber)">
+                      <ion-icon slot="icon-only" name="checkmark" color="success" ></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
   </ion-grid>
 </ion-content>
