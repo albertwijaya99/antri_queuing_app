@@ -7,13 +7,19 @@ import {MenuController} from '@ionic/angular';
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
+  private active: any;
   constructor(
       private menuCtrl: MenuController
-  ) { }
+  ) {
+}
   async openMenu(){
     await this.menuCtrl.enable(true, 'menu');
     await this.menuCtrl.open('menu');
   }
   ngOnInit() {
+  }
+
+  updateActive(active) {
+    this.active = active;
   }
 }

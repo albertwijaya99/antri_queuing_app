@@ -7,18 +7,20 @@ ion-toolbar {
   background-color: #fff;
 }
 .textAboutApp {
+  font-weight: bold;
   color: #0d0d0d;
   margin-left: 20px;
   display: block;
-  align-self: center;
-  text-justify: auto
+  text-justify: auto;
+  float: left;
 }
 .textAboutAppAnswer{
+  font-weight: bold;
   color: #A0A0A0;
   margin-left: 20px;
   display: block;
-  align-self: center;
   text-justify: auto;
+  float: right;
 }
 .menu{
   color: #0d0d0d;
