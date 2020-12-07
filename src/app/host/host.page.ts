@@ -56,10 +56,14 @@ export class HostPage implements OnInit {
     });
   }
 
-  ionViewWillEnter(){
-    this.queueList = [];
-    this.nowQueueList = [];
+  async ionViewWillEnter(){
     this.getTotalQueue();
+    await this.firebaseAuthService.firebaseDB
+        .database
+        .ref(this.refPath)
+        .on('child_changed', function(snap) {
+          location.reload();
+        });
   }
 
 
@@ -69,6 +73,8 @@ export class HostPage implements OnInit {
   }
 
   getQueueList(){
+    this.queueList = [];
+    this.nowQueueList = [];
     for(let i = 1; i<= this.totalQueue; i++){
       this.firebaseAuthService.firebaseDB.database.ref(this.refPath+'/'+i).once('value').then((snapshot => {
         if(snapshot.exists() &&  snapshot.val().status == "waiting"){
@@ -110,7 +116,7 @@ export class HostPage implements OnInit {
         this.presentDeleteToast();
     });
   }
-  
+
   nextQueueButton(index){
     this.presentDoneLoading().then(() => {
       if(this.nowQueueList.length>0){
