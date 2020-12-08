@@ -86,7 +86,6 @@ export class HomePage implements OnInit{
                     hid.forEach(function (queueNumber) {
                         queueNumber.forEach(function (user) {
                             if (user.val().email === userName && ['current', 'waiting'].includes(user.val().status)) {
-                                i++;
                                 qNumber = user.key;
                                 hostId = user.ref.parent.key;
                                 qDate = user.ref.parent.parent.key;
@@ -99,6 +98,10 @@ export class HomePage implements OnInit{
                         });
                         if (qNumber && hostId && nowQ){
                             myQ.push([qNumber, hostId, nowQ, qDate, i]);
+                            i++;
+                            qNumber = null;
+                            hostId = null;
+                            nowQ = null;
                         }
                     });
                 });
