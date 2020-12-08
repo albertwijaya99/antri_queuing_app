@@ -7,11 +7,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-item *ngFor="let Q of myQ">
-    <ion-label>now queuing = {{Q[5]}}</ion-label>
-
-    <ion-button (click)="deleteQ(Q[1], Q[0])">X</ion-button>
-  </ion-item>
   <ion-grid *ngIf="myQ.length>0">
     <ion-list class="bg-transparent" *ngFor="let Q of myQ">
       <ion-row *ngIf="Q[4] % 2 == 1">
