@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { LocalNotifications} from '@ionic-native/local-notifications/ngx'
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -16,6 +16,7 @@ import { environment } from '../environments/environment';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { DatePipe } from '@angular/common';
       BrowserModule,
       IonicModule.forRoot(),
       AppRoutingModule,
+      AngularFireMessagingModule,
       ],
   providers: [
       StatusBar,
@@ -36,6 +38,7 @@ import { DatePipe } from '@angular/common';
       FileTransfer,
       AndroidPermissions,
       DatePipe,
+      LocalNotifications
   ],
   bootstrap: [AppComponent]
 })
