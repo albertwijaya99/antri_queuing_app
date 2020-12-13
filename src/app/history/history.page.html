@@ -14,8 +14,10 @@
     </ion-item>
 
     <ion-item *ngFor="let Q of hostQ">
-        {{Q[4] + 1}}. {{Q[0]}} - {{Q[1]}} <br />
-        {{Q[2]}} - {{Q[3]}}
+        tanggal = {{Q[0]}}<br/>
+        done = {{Q[1]}}<br/>
+        cancelled = {{Q[2]}}<br/>
+        total = {{Q[3]}}<br/>
         (HOST)
     </ion-item>
   <ion-grid>
