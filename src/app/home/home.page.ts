@@ -35,6 +35,7 @@ export class HomePage implements OnInit{
       private datePipe: DatePipe,
       private alertCtrl: AlertController,
       private toastCtrl: ToastController,
+      private loadingCtrl: LoadingController,
       private localNotifications: LocalNotifications,
   ) {}
 
