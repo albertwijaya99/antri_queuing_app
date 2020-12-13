@@ -6,7 +6,6 @@ import {Observable} from 'rxjs';
 import {Route, Router} from '@angular/router';
 import {DatePipe} from '@angular/common';
 import {AngularFireDatabase} from '@angular/fire/database';
-import {FcmService} from '../fcm.service';
 import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 @Component({
@@ -36,8 +35,6 @@ export class HomePage implements OnInit{
       private datePipe: DatePipe,
       private alertCtrl: AlertController,
       private toastCtrl: ToastController,
-      private loadingCtrl: LoadingController,
-      private fcmService: FcmService,
       private localNotifications: LocalNotifications,
   ) {}
 
@@ -51,7 +48,6 @@ export class HomePage implements OnInit{
         this.uid = user.uid;
         this.firebaseAuthService.firebaseDB.database.ref('/Users/' + this.uid).once('value').then((snapshot) => {
           this.guestName = (snapshot.val().guest_name);
-          this.fcmService.initPush();
         });
       }
       else {
