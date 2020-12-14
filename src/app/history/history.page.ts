@@ -51,16 +51,29 @@ export class HistoryPage implements OnInit {
 
   async getHistory() {
     const guestQ = [];
+    const hostQ = [];
     let i = 0;
+    const dateList = [];
     this.localStorageUserDB = JSON.parse(localStorage.getItem('userDB'));
-    // const userName = this.localStorageUserDB.email;
-    const userName = 'aaron.effendi@student.umn.ac.id';
+    const uid = this.uid;
+    const userName = this.localStorageUserDB.email;
+    // const userName = 'steven.wijaya2@student.umn.ac.id';
+    // const uid = 'C4StgSlQc7NXb33VGTPalmLpVju2';
     await this.firebaseDB
         .database
         .ref('Queue')
         .once('value', function(date) {
           date.forEach(function(hid) {
             hid.forEach(function(queueNumber) {
+              if (queueNumber.key === uid) {
+                queueNumber.forEach(function (user){
+                  if (dateList.includes(user.ref.parent.parent.key)) {
+                    // continue
+                    return false;
+                  }
+                  dateList.push(user.ref.parent.parent.key);
+                });
+              }
               queueNumber.forEach(function(user) {
                 if (user.val().email === userName) {
                   const hostId = user.ref.parent.key;
@@ -84,6 +97,31 @@ export class HistoryPage implements OnInit {
             q.push(hostName);
           });
     }
+    for (const d of dateList) {
+      hostQ.push([d]);
+    }
+    for (const h of hostQ) {
+      await this.firebaseDB
+          .database
+          .ref('Queue')
+          .child(h[0])
+          .child(uid)
+          .once('value', function (snaps) {
+            let done = 0;
+            let cancelled = 0;
+            let total = 0;
+            snaps.forEach(function (user) {
+              if (user.val().status === 'done') {
+                done++;
+              } else if (user.val().status === 'cancelled') {
+                cancelled++;
+              }
+              total++;
+            });
+            h.push(done, cancelled, total);
+          });
+    }
+    this.hostQ = hostQ;
     this.guestQ = guestQ;
   }
 
