@@ -205,7 +205,7 @@ export class HostPage implements OnInit {
     await toast.present();
   }
 
-  async presentNotifAlert(id: number) {
+  async presentNotifyAlert(id: number) {
     const alert = await this.alertCtrl.create({
       header: 'Are you sure want to notify the costumer?',
       buttons: [
