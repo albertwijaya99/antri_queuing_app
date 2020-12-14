@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {AlertController, LoadingController, MenuController, ToastController} from '@ionic/angular';
-import {FirebaseAuthService} from "../firebase-auth.service";
-import {AngularFireAuth} from "@angular/fire/auth";
-import {Observable} from "rxjs";
-import {Route, Router} from "@angular/router";
-import {DatePipe} from "@angular/common";
-import {AngularFireDatabase} from "@angular/fire/database";
+import {FirebaseAuthService} from '../firebase-auth.service';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {Observable} from 'rxjs';
+import {Route, Router} from '@angular/router';
+import {DatePipe} from '@angular/common';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-home',
@@ -16,15 +17,16 @@ import {AngularFireDatabase} from "@angular/fire/database";
 export class HomePage implements OnInit{
   user: Observable<any>;
   i: number;
-  uid: String;
-  guest_name : String;
-  localStorageUserDB : any;
-   currentDate: Date;
-   dateString: String;
-   hostUID: String;
-   refPath: string;
-   lastQueue : number;
-   myQ = [];
+  uid: string;
+  guestName: string;
+  localStorageUserDB: any;
+  localStorageUser: any;
+  hostUID: string;
+  lastQueue: number;
+  myQ = [];
+  currentDate = new Date();
+  dateString = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
+  refPath = 'Queue/' + this.dateString;
   constructor(
       private menuCtrl: MenuController,
       private firebaseAuthService: FirebaseAuthService,
@@ -34,6 +36,7 @@ export class HomePage implements OnInit{
       private alertCtrl: AlertController,
       private toastCtrl: ToastController,
       private loadingCtrl: LoadingController,
+      private localNotifications: LocalNotifications,
   ) {}
 
   ngOnInit() {
@@ -45,7 +48,7 @@ export class HomePage implements OnInit{
         }
         this.uid = user.uid;
         this.firebaseAuthService.firebaseDB.database.ref('/Users/' + this.uid).once('value').then((snapshot) => {
-          this.guest_name = (snapshot.val().guest_name);
+          this.guestName = (snapshot.val().guest_name);
         });
       }
       else {
@@ -54,20 +57,40 @@ export class HomePage implements OnInit{
     });
   }
 
+
     async ionViewWillEnter(){
-        this.myQ = [];
         await this.getMyQueue();
+        this.localStorageUser = JSON.parse(localStorage.getItem('user'));
+        const email = this.localStorageUser.email;
         for (const Q of this.myQ) {
-            await this.firebaseDB
+            console.log(this.myQ);
+            this.firebaseDB
                 .database
                 .ref('Queue/' + Q[3] + '/')
-                .on('child_changed', function(snap) {
-                    console.log(Q[3]);
+                .on('child_changed', (snap => {
+                    snap.forEach((currQueueList => {
+                        console.log(currQueueList.val().notified);
+                        if (currQueueList.val().email === email && currQueueList.val().notified === 'yes') {
+                            this.presentLocalNotifications(currQueueList.ref.parent.key , currQueueList.key);
+                            console.log('notification sent');
+                        }
+                    }));
                     location.reload();
-                });
+                }));
         }
     }
+    presentLocalNotifications(Hid,id){
+        this.localNotifications.schedule({
+            id: 1,
+            text: 'bang, dipanggil sama yang jualan tuh',
+            sound: 'file://beep.caf',
 
+        });
+
+        this.firebaseAuthService.firebaseDB.object(this.refPath + '/' + Hid + '/' + id).update({
+            notified: 'no'
+        });
+    };
     async getMyQueue() {
         const myQ = [];
         let i = 0;
@@ -81,22 +104,26 @@ export class HomePage implements OnInit{
         await this.firebaseDB
             .database
             .ref('Queue')
-            .once('value', function (date) {
-                date.forEach(function (hid) {
-                    hid.forEach(function (queueNumber) {
-                        queueNumber.forEach(function (user) {
+            .once('value', function(date) {
+                date.forEach(function(hid) {
+                    hid.forEach(function(queueNumber) {
+                        queueNumber.forEach(function(user) {
                             if (user.val().email === userName && ['current', 'waiting'].includes(user.val().status)) {
                                 qNumber = user.key;
                                 hostId = user.ref.parent.key;
                                 qDate = user.ref.parent.parent.key;
                             }
                         });
-                        queueNumber.forEach(function (user) {
+                        queueNumber.forEach(function(user) {
                             if (user.val().status === 'current' && user.ref.parent.key === hostId) {
                                 nowQ = user.key;
                             }
                         });
-                        if (qNumber && hostId && nowQ){
+
+                        if (qNumber != null && hostId != null){
+                            if (nowQ === null){
+                                nowQ = 0;
+                            }
                             myQ.push([qNumber, hostId, nowQ, qDate, i]);
                             i++;
                             qNumber = null;
@@ -111,7 +138,7 @@ export class HomePage implements OnInit{
                 .database
                 .ref('Users')
                 .child(q[1])
-                .once('value', function (snaps) {
+                .once('value', function(snaps) {
                     hostName = snaps.val().host_name;
                     q.push(hostName);
                 });
@@ -130,11 +157,11 @@ export class HomePage implements OnInit{
         this.firebaseDB
             .database
             .ref('Queue')
-            .once('value', function (date) {
-                date.forEach(function (hid) {
-                    hid.forEach(function (queueNumber) {
+            .once('value', function(date) {
+                date.forEach(function(hid) {
+                    hid.forEach(function(queueNumber) {
                         if (queueNumber.key === hostID) {
-                            queueNumber.forEach(function (user) {
+                            queueNumber.forEach(function(user) {
                                 if (user.key === qNumber) {
                                     console.log(user.val().status);
                                     user.ref.update({

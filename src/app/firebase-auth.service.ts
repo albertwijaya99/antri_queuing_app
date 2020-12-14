@@ -21,7 +21,7 @@ export class FirebaseAuthService {
       private router: Router,
       private toastCtrl: ToastController,
       private loadingCtrl: LoadingController,
-      private datePipe: DatePipe
+      private datePipe: DatePipe,
   ) { }
   async signIn(email: string, password: string){
       await this.presentLoading().then(() => {
@@ -157,13 +157,18 @@ export class FirebaseAuthService {
     }
     getAllWaitingQueueList(HostUID){
 
-        var currentDate = new Date();
-        // var dateString = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-        var dateString = '2020-11-30';
-        var refPath = 'Queue/'+dateString+'/'+HostUID;
+        let currentDate = new Date();
+        let dateString = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+        // let dateString = '2020-11-30';
+        let refPath = 'Queue/' + dateString + '/' + HostUID;
         this.queueList = this.firebaseDB.list(refPath);
         return this.queueList;
 
+    }
+    async setTokenFCM(uid: string , FCMToken: string){
+        await this.firebaseDB.object('/Users/' + uid).update({
+            Token: FCMToken,
+        });
     }
 
 

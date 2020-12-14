@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, LoadingController, MenuController, ToastController} from '@ionic/angular';
-import {FirebaseAuthService} from "../firebase-auth.service";
-import {Router} from "@angular/router";
-import {Observable} from "rxjs";
-import {DatePipe} from "@angular/common";
+import {FirebaseAuthService} from '../firebase-auth.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {DatePipe} from '@angular/common';
 import {snapshotChanges} from "@angular/fire/database";
 import {async} from "@angular/core/testing";
 import {queue} from "rxjs/internal/scheduler/queue";
 import {FormGroup, NgForm} from "@angular/forms";
+import firebase from 'firebase';
 
 @Component({
   selector: 'app-host',
@@ -17,16 +18,16 @@ import {FormGroup, NgForm} from "@angular/forms";
 })
 export class HostPage implements OnInit {
   user: Observable<any>;
-  host_name : String;
+  hostName: string;
   localStorageUser = JSON.parse(localStorage.getItem('user'));
   uid = this.localStorageUser.uid;
-  queueList = []; //contain queue list (waiting)
-  nowQueueList = []; //contain current queue
+  queueList = []; // contain queue list (waiting)
+  nowQueueList = []; // contain current queue
   totalQueue: any;
   currentDate = new Date();
   dateString = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
-  //dateString = '2020-12-04';
-  refPath = 'Queue/'+this.dateString+'/'+this.uid;
+  // dateString = '2020-12-04';
+  refPath = 'Queue/' + this.dateString + '/' + this.uid;
   constructor(
       private menuCtrl: MenuController,
       private firebaseAuthService: FirebaseAuthService,
@@ -38,7 +39,7 @@ export class HostPage implements OnInit {
   ) { }
 
   ngOnInit(){
-    //get name from firebase + check session
+    // get name from firebase + check session
     this.user = this.firebaseAuthService.firebaseAuth.authState;
     this.user.subscribe((user) => {
       if (user) {
@@ -47,7 +48,7 @@ export class HostPage implements OnInit {
         }
         this.uid = user.uid;
         this.firebaseAuthService.firebaseDB.database.ref('/Users/' + this.uid).once('value').then((snapshot) => {
-          this.host_name = (snapshot.val().host_name);
+          this.hostName = (snapshot.val().host_name);
         });
       }
       else {
@@ -55,7 +56,6 @@ export class HostPage implements OnInit {
       }
     });
   }
-
   async ionViewWillEnter(){
     this.getTotalQueue();
     await this.firebaseAuthService.firebaseDB
@@ -78,7 +78,7 @@ export class HostPage implements OnInit {
     for(let i = 1; i<= this.totalQueue; i++){
       this.firebaseAuthService.firebaseDB.database.ref(this.refPath+'/'+i).once('value').then((snapshot => {
         if(snapshot.exists() &&  snapshot.val().status == "waiting"){
-          var queueTemp = new Array();
+          let queueTemp = new Array();
           queueTemp['queueNumber']  = snapshot.key;
           queueTemp['email'] = snapshot.val().email;
           queueTemp['name'] = snapshot.val().name;
@@ -86,8 +86,8 @@ export class HostPage implements OnInit {
           queueTemp['date'] = this.dateString;
           this.queueList.push(queueTemp);
         }
-        else if(snapshot.exists() &&  snapshot.val().status == "current"){
-          var queueTemp = new Array();
+        else if(snapshot.exists() &&  snapshot.val().status === 'current'){
+          let queueTemp = new Array();
           queueTemp['queueNumber']  = snapshot.key;
           queueTemp['email'] = snapshot.val().email;
           queueTemp['name'] = snapshot.val().name;
@@ -109,33 +109,42 @@ export class HostPage implements OnInit {
 
   cancelQueueButton(index){
     this.presentDeleteLoading().then(() => {
-      this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+index).update({
-        status: "cancelled"
+      this.firebaseAuthService.firebaseDB.object(this.refPath + '/' + index).update({
+        status: 'cancelled'
       });
         this.ionViewWillEnter();
         this.presentDeleteToast();
     });
   }
+  NotifyButton(index){
+    this.presentNotifLoading().then(() => {
+      this.firebaseAuthService.firebaseDB.object(this.refPath + '/' + index).update({
+        notified: 'yes'
+      });
+      this.ionViewWillEnter();
+      this.presentNotifToast();
+    });
+  }
 
   nextQueueButton(index){
     this.presentDoneLoading().then(() => {
-      if(this.nowQueueList.length>0){
-        this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+this.nowQueueList[0]['queueNumber']).update({
-          status: "done"
+      if(this.nowQueueList.length > 0){
+        this.firebaseAuthService.firebaseDB.object(this.refPath + '/' + this.nowQueueList[0]['queueNumber']).update({
+          status: 'done'
         })
       }
 
-      this.firebaseAuthService.firebaseDB.object(this.refPath+'/'+index).update({
-        status: "current"
+      this.firebaseAuthService.firebaseDB.object(this.refPath + '/' + index).update({
+        status: 'current'
       })
       this.ionViewWillEnter();
       this.presentDoneToast();
     });
   }
 
-  submitNewHostNameForm(newName: String){
+  submitNewHostNameForm(newName: string){
     this.presentNewHostNameLoading().then(() => {
-      this.firebaseAuthService.firebaseDB.object('Users/'+this.uid).update({
+      this.firebaseAuthService.firebaseDB.object('Users/' + this.uid).update({
         host_name: newName
       });
       this.ngOnInit();
@@ -196,7 +205,7 @@ export class HostPage implements OnInit {
     await toast.present();
   }
 
-  async presentNotifAlert() {
+  async presentNotifAlert(id: number) {
     const alert = await this.alertCtrl.create({
       header: 'Are you sure want to notify the costumer?',
       buttons: [
@@ -206,7 +215,7 @@ export class HostPage implements OnInit {
         },
         {
           text: 'Notify',
-          handler: () => console.log('notify'),
+          handler: () => this.NotifyButton(id),
         }
       ]
     });
