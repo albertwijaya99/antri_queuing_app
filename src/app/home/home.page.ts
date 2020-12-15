@@ -71,7 +71,7 @@ export class HomePage implements OnInit{
                     snap.forEach((currQueueList => {
                         console.log(currQueueList.val().notified);
                         if (currQueueList.val().email === email && currQueueList.val().notified === 'yes') {
-                            this.presentLocalNotifications(currQueueList.ref.parent.key , currQueueList.key);
+                            this.presentLocalNotifications(currQueueList.ref.parent.key , currQueueList.key, Q[5]);
                             console.log('notification sent');
                         }
                     }));
@@ -79,11 +79,11 @@ export class HomePage implements OnInit{
                 }));
         }
     }
-    presentLocalNotifications(Hid,id){
+    presentLocalNotifications(Hid,id, Hname){
         this.localNotifications.schedule({
             id: 1,
-            title: 'Reminder',
-            text: 'Kakak, dipanggil sama yang jualan nih!',
+            title: 'Calling',
+            text: 'Kakak, dipanggil sama '+Hname+' tuh!',
             sound: 'file://beep.caf',
             icon: 'url(../../assets/img/logo3.png)',
 
