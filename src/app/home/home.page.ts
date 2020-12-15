@@ -82,8 +82,10 @@ export class HomePage implements OnInit{
     presentLocalNotifications(Hid,id){
         this.localNotifications.schedule({
             id: 1,
-            text: 'bang, dipanggil sama yang jualan tuh',
+            title: 'Reminder',
+            text: 'Kakak, dipanggil sama yang jualan nih!',
             sound: 'file://beep.caf',
+            icon: 'url(../../assets/img/logo3.png)',
 
         });
 
