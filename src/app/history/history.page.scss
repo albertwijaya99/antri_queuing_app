@@ -17,8 +17,10 @@ ion-content {
   background-color: #fff;
 }
 
-ion-button{
-  --background: #FFBFA8;
+ion-segment-button{
+  --background-checked: #FFBFA8;
+  --background-hover-opacity: 0;
   --color: black;
+  --color-checked: black;
 }
 

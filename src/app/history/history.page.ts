@@ -55,10 +55,10 @@ export class HistoryPage implements OnInit {
     let i = 0;
     const dateList = [];
     this.localStorageUserDB = JSON.parse(localStorage.getItem('userDB'));
-    const uid = this.uid;
-    const userName = this.localStorageUserDB.email;
-    // const userName = 'steven.wijaya2@student.umn.ac.id';
-    // const uid = 'C4StgSlQc7NXb33VGTPalmLpVju2';
+    // const uid = this.uid;
+    // const userName = this.localStorageUserDB.email;
+    const userName = 'steven.wijaya2@student.umn.ac.id';
+    const uid = 'C4StgSlQc7NXb33VGTPalmLpVju2';
     await this.firebaseDB
         .database
         .ref('Queue')
