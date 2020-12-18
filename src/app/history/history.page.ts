@@ -19,6 +19,7 @@ export class HistoryPage implements OnInit {
   guestQ = [];
   hostQ = [];
   private active: any;
+  history: any;
   constructor(
       private menuCtrl: MenuController,
       private firebaseAuthService: FirebaseAuthService,
@@ -127,5 +128,8 @@ export class HistoryPage implements OnInit {
 
   updateActive(active) {
     this.active = active;
+  }
+
+  onSegmentChange($event: any) {
   }
 }

@@ -10,8 +10,7 @@
   display: flex;
 }
 ion-content{
-  --background: url(../../assets/img/contentWhite.png) 0 0/100% 100% no-repeat !important;
-  background-color: #fff;
+  background-color: #fff !important;
 }
 ion-toolbar {
   --background: url(../../assets/img/toolbar.png) 0 0/100% 100% no-repeat !important;
